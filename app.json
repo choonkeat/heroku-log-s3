@@ -1,0 +1,33 @@
+{
+  "name": "Heroku Log S3",
+  "description": "log drain from heroku to s3",
+  "repository": "https://github.com/choonkeat/heroku-log-s3",
+  "keywords": ["ruby", "rack", "log", "drain", "s3", "upload"],
+  "env": {
+    "S3_KEY": "",
+    "S3_SECRET": "",
+    "S3_BUCKET": "",
+    "DURATION": {
+      "description": "Seconds to buffer until we write to S3",
+      "value": "60"
+    },
+    "STRFTIME": {
+      "description": "Format of your s3 `object_id` (file path); `:thread_id` will be replaced by a unique number to prevent overwriting of the same file between reboots, in case the timestamp overlaps",
+      "value": "%Y%m/%d/%H/%M%S.:thread_id.log"
+    },
+    "HTTP_USER": {
+      "value": "logger",
+      "required": false
+    },
+    "HTTP_PASSWORD": {
+      "description": "Password to prevent public from using your log drain",
+      "generator": "secret",
+      "required": false
+    },
+    "FILTER_PREFIX": {
+      "description": "Lines with this prefix will be saved to S3; non-matching lines are ignored",
+      "value": "",
+      "required": false
+    }
+  }
+}
