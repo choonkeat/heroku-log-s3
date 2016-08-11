@@ -1,3 +1,8 @@
+if ENV['NEW_RELIC_LICENSE_KEY']
+  require 'newrelic_rpm'
+  NewRelic::Agent.manual_start
+end
+
 require_relative './queue_io.rb'
 require_relative './upload.rb'
 require_relative './app.rb'
