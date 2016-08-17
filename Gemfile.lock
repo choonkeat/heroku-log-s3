@@ -17,6 +17,7 @@ GEM
       mini_portile2 (~> 2.1.0)
       pkg-config (~> 1.1.7)
     pkg-config (1.1.7)
+    puma (3.6.0)
     rack (2.0.1)
 
 PLATFORMS
@@ -26,6 +27,7 @@ DEPENDENCIES
   aws-sdk
   heroku-log-parser!
   newrelic_rpm
+  puma
   rack
 
 RUBY VERSION

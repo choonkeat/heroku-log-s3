@@ -2,10 +2,6 @@ require 'logger'
 
 class QueueIO
   def initialize(duration = Integer(ENV.fetch('DURATION', 60)))
-    @logger = Logger.new(STDOUT)
-    @logger.formatter = proc do |severity, datetime, progname, msg|
-       "[queue_io #{$$} #{Thread.current.object_id}] #{msg}\n"
-    end
     @duration = duration
     @pending = Queue.new
     @queue = Queue.new
@@ -17,6 +13,7 @@ class QueueIO
   end
 
   def read(bytes)
+    return if @closed
     @pending.pop(true) # non-blocking, best effort
 
   rescue Exception
@@ -31,9 +28,7 @@ class QueueIO
   end
 
   def eof?
-    (! @pending.empty?).tap do |bool|
-      @logger.info "eof? #{bool}"
-    end
+    !@pending.empty?
   end
 
   def close
@@ -42,6 +37,7 @@ class QueueIO
 
     # short circuit `:read`
     @duration = 0
+    @queue.push ""
     @queue.push ""
   end
 

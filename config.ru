@@ -3,14 +3,9 @@ if ENV['NEW_RELIC_LICENSE_KEY']
   NewRelic::Agent.manual_start
 end
 
-require_relative './queue_io.rb'
-require_relative './upload.rb'
 require_relative './app.rb'
 
 $stdout.sync = true
-queue_io = QueueIO.new
-upload = Upload.new(queue_io)
-upload.start
 
 if ENV['HTTP_USER'].to_s == '' && ENV['HTTP_PASSWORD'].to_s == ''
   # skip
@@ -20,4 +15,6 @@ else
   end
 end
 
-run App.new(queue_io)
+app = App.new
+# app.start # puma `on_worker_boot`
+run app
