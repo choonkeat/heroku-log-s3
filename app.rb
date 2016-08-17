@@ -26,7 +26,7 @@ class App
 
     lines.each do |line|
       next unless line.start_with?(PREFIX)
-      Writer.instance.write(line) # WRITER_LIB
+      Writer.instance.write(line[PREFIX_LENGTH..-1]) # WRITER_LIB
     end
 
   rescue Exception
