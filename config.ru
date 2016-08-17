@@ -15,6 +15,4 @@ else
   end
 end
 
-app = App.new
-# app.start # puma `on_worker_boot`
-run app
+run App.new
