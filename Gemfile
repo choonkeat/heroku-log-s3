@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 
-ruby '2.3.1'
+ruby '2.5.0'
 
-gem 'puma'
+gem 'puma', '~> 3.6'
 gem 'rack'
-gem 'aws-sdk'
+gem 'aws-sdk', '~> 1.4'
 gem 'heroku-log-parser', git: 'https://github.com/rwdaigle/heroku-log-parser.git'
 
 gem 'newrelic_rpm'
