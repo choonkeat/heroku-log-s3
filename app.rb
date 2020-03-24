@@ -26,6 +26,7 @@ class App
 
     lines.each do |line|
       next unless line.start_with?(PREFIX)
+      line = line.gsub(/(.+)fwd="(.+?)"(.*)/, '\1fwd=""\3') # empty fwd="IPs"
       Writer.instance.write(line[PREFIX_LENGTH..-1]) # WRITER_LIB
     end
 
