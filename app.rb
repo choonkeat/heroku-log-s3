@@ -19,14 +19,15 @@ class App
 
   def call(env)
     lines = if LOG_REQUEST_URI
-      [env['REQUEST_URI']]
+      [{ msg: env['REQUEST_URI'], ts: '' }]
     else
-      HerokuLogParser.parse(env['rack.input'].read).collect {|m| m[:message] }
+      HerokuLogParser.parse(env['rack.input'].read).collect { |m| { msg: m[:message], ts: m[:emitted_at].strftime('%Y-%m-%dT%H:%M:%S.%L%z') } }
     end
 
     lines.each do |line|
-      next unless line.start_with?(PREFIX)
-      Writer.instance.write(line[PREFIX_LENGTH..-1]) # WRITER_LIB
+      msg = line[:msg]
+      next unless msg.start_with?(PREFIX)
+      Writer.instance.write([line[:ts], msg[PREFIX_LENGTH..-1]].join(' ').strip) # WRITER_LIB
     end
 
   rescue Exception
