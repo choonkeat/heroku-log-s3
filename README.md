@@ -36,4 +36,4 @@ heroku drains:add https://DRAIN_APP_NAME.herokuapp.com/
 # Alternatives
 
 - https://logbox.io a logs drain that forwards Heroku messages for a long‑term archival to AWS S3, Glacier or CloudWatch.
-- <insert suggestions here>
+- _{insert suggestions here}_
