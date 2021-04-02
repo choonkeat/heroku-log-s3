@@ -1,5 +1,5 @@
 require 'logger'
-require 'heroku-log-parser'
+require_relative './log_line_parser.rb'
 require_relative './queue_io.rb'
 require_relative ENV.fetch("WRITER_LIB", "./writer/s3.rb") # provider of `Writer < WriterBase` singleton
 
@@ -21,13 +21,12 @@ class App
     lines = if LOG_REQUEST_URI
       [{ msg: env['REQUEST_URI'], ts: '' }]
     else
-      HerokuLogParser.parse(env['rack.input'].read).collect { |m| { msg: m[:message], ts: m[:emitted_at].strftime('%Y-%m-%dT%H:%M:%S.%L%z') } }
+      LogLineParser.new(env['rack.input'].read).collect
     end
 
     lines.each do |line|
-      msg = line[:msg]
-      next unless msg.start_with?(PREFIX)
-      Writer.instance.write([line[:ts], msg[PREFIX_LENGTH..-1]].join(' ').strip) # WRITER_LIB
+			next unless line.to_s.start_with?(PREFIX)
+			Writer.instance.write(line.to_json.strip) # WRITER_LIB
     end
 
   rescue Exception
