@@ -25,6 +25,9 @@ class App
     end
 
     lines.each do |line|
+			pp "BEGIN LINE _______________"
+			pp line
+			pp "END LINE _______________"
 			next unless line.to_s.start_with?(PREFIX)
 			Writer.instance.write(line.to_json.strip) # WRITER_LIB
     end
