@@ -4,6 +4,7 @@
   "repository": "https://github.com/choonkeat/heroku-log-s3",
   "keywords": ["ruby", "rack", "log", "drain", "s3", "upload"],
   "env": {
+    "AWS_REGION": "",
     "S3_KEY": "",
     "S3_SECRET": "",
     "S3_BUCKET": "",
