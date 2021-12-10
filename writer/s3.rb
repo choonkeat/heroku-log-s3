@@ -13,6 +13,7 @@ class Writer < WriterBase
     @logger.info "begin #{filepath}"
     S3_BUCKET_OBJECTS[filepath].write(
       @io,
+      acl: 'bucket-owner-full-control',
       estimated_content_length: 1 # low-ball estimate; so we can close buffer by returning nil
     )
     @logger.info "end #{filepath}"
